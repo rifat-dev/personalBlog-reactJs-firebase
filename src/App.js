@@ -1,29 +1,39 @@
+import { useEffect } from 'react'
 import './App.css';
+import { getAllPost } from './components/store/actions/postAction'
 import { connect } from 'react-redux'
 import Dashbord from './admin/dashbord';
 import Admin from './admin/index'
 import Home from './components/home';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import NavBar from './components/AppBar/nav'
 import SignUp from './components/auth/signUp';
 import SignIn from './components/auth/signIn';
 import PrivateRoute from './components/protectedRoute/privateRoute'
 
-function App(props) {
-  const { isLoggedIn, isAdmin } = props.user
+function App({ getAllPost }) {
+
+  useEffect(() => {
+    getAllPost()
+  }, [])
+
   return (
     <div className="App">
-
       <BrowserRouter>
         <Switch>
           <PrivateRoute path="/admin">
-            <Admin/>
+            <Admin />
           </PrivateRoute>
           <div>
             <NavBar />
-            <Route exact path="/" component={Home} />
+            <Route exact path='/' >
+              <Redirect to='/home' />
+            </Route>
+            <Route path='/home' component={Home} />
             <Route exact path="/login" component={SignIn} />
             <Route exact path="/signup" component={SignUp} />
+
+
           </div>
         </Switch>
       </BrowserRouter>
@@ -31,8 +41,5 @@ function App(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-})
 
-export default connect(mapStateToProps)(App);
+export default connect(null, { getAllPost })(App);

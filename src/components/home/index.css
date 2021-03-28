@@ -1,0 +1,20 @@
+.home {
+    display: flex;
+    margin: 8px;
+    position: relative;
+}
+
+.catagory {
+    width: 30%;
+}
+
+.main {
+    width: 70%;
+}
+
+.col-6 {
+    width: 70%;
+    margin: 0px auto;
+    /* padding-bottom: 6px; */
+    margin-bottom: 6px;
+}

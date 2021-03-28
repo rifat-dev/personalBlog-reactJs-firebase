@@ -68,7 +68,7 @@ function NavBar({ user, LogOut }) {
 
                     <Typography variant="h6" className={classes.title}>
                         <Button color="inherit">
-                            <Link style={{ color: 'white' }} to="/">
+                            <Link style={{ color: 'white', textDecoration:'none' }} to="/home">
                                 Home
                             </Link>
                         </Button>
@@ -120,12 +120,12 @@ function NavBar({ user, LogOut }) {
                     ) : (
                         <div>
                             <Button color="inherit">
-                                <Link style={{ color: 'white' }} to="/login">
+                                <Link style={{ color: 'white', textDecoration:'none' }} to="/login">
                                     LogIn
                                 </Link>
                             </Button>
                             <Button color="inherit">
-                                <Link style={{ color: 'white' }} to="/signup">
+                                <Link style={{ color: 'white', textDecoration:'none' }} to="/signup">
                                     Registation
                                 </Link>
                             </Button>
