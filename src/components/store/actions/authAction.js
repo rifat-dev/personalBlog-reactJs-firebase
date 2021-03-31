@@ -19,7 +19,7 @@ export const createUser = ({ firstName, lastName, roal, email, uid, history }) =
                     user: user
                 }
             })
-            history.push('/')
+            history.push('/home')
         })
         .catch((error) => {
             console.error("Error writing document: ", error);
@@ -32,17 +32,17 @@ export const findUser = ({ uid, history }) => dispatch => {
 
 
     var docRef = db.collection("users").doc(uid);
-    console.log(docRef)
+    
     docRef.get().then((doc) => {
         if (doc.exists) {
-            console.log("Document data:", doc.data());
+            // console.log("Document data:", doc.data());
             dispatch({
                 type: Types.USER_LOGIN,
                 palyload: {
                     user: doc.data()
                 }
             })
-            history.push("/");
+            history.push("/home");
         } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");

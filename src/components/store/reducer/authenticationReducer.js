@@ -18,7 +18,7 @@ const authenticationReducer = (state = initialState, action) => {
         case Types.USER_LOGIN:{
             return {
                 isLoggedIn : action.palyload.user ? true : false,
-                isAdmin : action.palyload.user.roal == "admin" ? true : false,
+                isAdmin : action.palyload.user.roal === "admin" ? true : false,
                 user : action.palyload.user
             }
         }

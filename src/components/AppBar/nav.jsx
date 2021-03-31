@@ -27,6 +27,10 @@ const useStyles = makeStyles((theme) => ({
     title: {
         flexGrow: 1,
     },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
 }));
 
 function NavBar({ user, LogOut }) {
@@ -83,7 +87,7 @@ function NavBar({ user, LogOut }) {
                                 onClick={handleMenu}
                                 color="inherit"
                             >
-                                <Avatar alt="Remy Sharp" />
+                                <Avatar className={classes.avatar}  alt="Remy Sharp" />
                             </IconButton>
                             <Menu
                                 id="menu-appbar"

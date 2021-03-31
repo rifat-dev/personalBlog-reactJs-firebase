@@ -1,7 +1,5 @@
-import { useEffect } from 'react'
+
 import './App.css';
-import { getAllPost } from './components/store/actions/postAction'
-import { connect } from 'react-redux'
 import Dashbord from './admin/dashbord';
 import Admin from './admin/index'
 import Home from './components/home';
@@ -11,11 +9,7 @@ import SignUp from './components/auth/signUp';
 import SignIn from './components/auth/signIn';
 import PrivateRoute from './components/protectedRoute/privateRoute'
 
-function App({ getAllPost }) {
-
-  useEffect(() => {
-    getAllPost()
-  }, [])
+function App() {
 
   return (
     <div className="App">
@@ -32,8 +26,6 @@ function App({ getAllPost }) {
             <Route path='/home' component={Home} />
             <Route exact path="/login" component={SignIn} />
             <Route exact path="/signup" component={SignUp} />
-
-
           </div>
         </Switch>
       </BrowserRouter>
@@ -42,4 +34,4 @@ function App({ getAllPost }) {
 }
 
 
-export default connect(null, { getAllPost })(App);
+export default App;

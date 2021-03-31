@@ -179,4 +179,4 @@ const CreatePost = ({createPost}) => {
     );
 }
 
-export default connect(null, { createPost })(CreatePost);
+export default connect(null, {createPost})(CreatePost);
