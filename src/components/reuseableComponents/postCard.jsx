@@ -73,7 +73,7 @@ function PostCard({ post, user, likeDislike, createComment ,comments }) {
         setRender(render ? false : true);
     }
 
-    const handelComment = (e) => {
+    const handelComment = async (e) => {
         e.preventDefault();
 
         if (comment) {
@@ -83,14 +83,20 @@ function PostCard({ post, user, likeDislike, createComment ,comments }) {
             }
            
             createComment(post,postComment);
+            setPostComments([...postsComments,postComment ])
+            setComment("")
             setRender(render ? false : true);
            
         }
     }
     
-
+   
 
     useEffect(() => {
+        
+     }, [render])
+
+     useEffect(()=>{
         let newComments = []
         if(comments){
             newComments = comments.filter(comment => {
@@ -101,7 +107,7 @@ function PostCard({ post, user, likeDislike, createComment ,comments }) {
             setPostComments([...newComments])
             
         }
-     }, [render])
+     },[])
 
     return (
         <Card className={classes.root} >

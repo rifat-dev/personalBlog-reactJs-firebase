@@ -44,7 +44,6 @@ export const createComment = (post, comment) => dispatch => {
                         }
                     })
                     console.log("Document successfully updated!");
-
                 })
                 .catch((error) => {
                     console.error("Error updating document: ", error);

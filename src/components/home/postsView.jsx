@@ -1,31 +1,41 @@
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import './index.css';
+import Spinner from '../reuseableComponents/spinner'
 import { connect } from 'react-redux'
-import { getAllPost , likeDislike } from '../store/actions/postAction'
+import { getAllPost, likeDislike } from '../store/actions/postAction'
 import { getAllComments } from '../store/actions/commentAction'
 import PostCard from '../reuseableComponents/postCard'
 
-function PostsView({ posts, user, getAllPost,getAllComments }) {
+function PostsView({ posts, user, getAllPost, getAllComments }) {
 
     useEffect(() => {
         getAllPost();
         getAllComments();
-    },[])
-  
-    useEffect(()=>{
+    }, [])
 
-    },[posts])
-    // console.log(posts)
-    return (
+    useEffect(() => {
 
-        <>
-            {posts.map((post) => (
-                <div key={post.title} className="col-6">
-                    <PostCard  key={post.title} post={post} user={user} />
-                </div>
-            ))}
-        </>
-    );
+    }, [posts])
+    
+    if (posts.length != 0) {
+        return (
+
+            <>
+                {posts.map((post) => (
+                    <div key={post.title} className="col-6">
+                        <PostCard key={post.title} post={post} user={user} />
+                    </div>
+                ))}
+            </>
+        );
+    } else {
+        return (
+
+            <>
+               <Spinner/>
+            </>
+        );
+    }
 }
 
 const mapStateFromProps = state => ({
@@ -33,4 +43,4 @@ const mapStateFromProps = state => ({
     user: state.user
 })
 
-export default connect(mapStateFromProps, { getAllPost,getAllComments })(PostsView);
+export default connect(mapStateFromProps, { getAllPost, getAllComments })(PostsView);
