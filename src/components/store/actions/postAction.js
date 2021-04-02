@@ -29,11 +29,7 @@ export const createPost = (post) => dispatch => {
     })
 }
 
-export const likeDislike = (post, userId) => (dispatch) => {
-
-    var index = post.likes.indexOf(userId);
-    index >= 0 ? post.likes.splice(index, 1) : post.likes.push(userId)
-  
+export let likeDislike = (post) => (dispatch) => {
     db.collection("posts").doc(post.id).update({likes:[...post.likes]})
         .then(() => {
             dispatch({
@@ -43,9 +39,11 @@ export const likeDislike = (post, userId) => (dispatch) => {
                 }
             })
             console.log("Document successfully updated!");
+            
         })
         .catch((error) => {
             console.error("Error updating document: ", error);
+           
         });
 }
 

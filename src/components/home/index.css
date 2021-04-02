@@ -1,11 +1,18 @@
 .home {
     display: flex;
-    margin: 8px;
+    padding: 8px;
     position: relative;
 }
 
-.catagory {
+.left-side {
     width: 30%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.left-side>div {
+    padding-bottom: 30px;
 }
 
 .main {

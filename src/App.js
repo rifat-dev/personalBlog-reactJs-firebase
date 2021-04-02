@@ -1,6 +1,5 @@
 
 import './App.css';
-import Dashbord from './admin/dashbord';
 import Admin from './admin/index'
 import Home from './components/home';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
@@ -10,7 +9,7 @@ import SignIn from './components/auth/signIn';
 import PrivateRoute from './components/protectedRoute/privateRoute'
 
 function App() {
-
+ 
   return (
     <div className="App">
       <BrowserRouter>

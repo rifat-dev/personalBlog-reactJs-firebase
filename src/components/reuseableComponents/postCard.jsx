@@ -1,7 +1,10 @@
+import { useEffect } from 'react'
+import CommentList from './comments'
 import { likeDislike } from '../store/actions/postAction'
+import { createComment } from '../store/actions/commentAction'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { useState} from 'react'
+import { useState } from 'react'
 import clsx from 'clsx';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,8 +19,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+
 
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
@@ -52,25 +54,54 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function PostCard({ post, user, likeDislike }) {
+function PostCard({ post, user, likeDislike, createComment ,comments }) {
 
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
+    const [postsComments , setPostComments] = useState([])
     const [comment, setComment] = useState("");
+    const [render, setRender] = useState(false);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
     const postLikeDislike = () => {
-        likeDislike(post, user.user.uid);
+        var index = post.likes.indexOf(user.user.uid);
+        index >= 0 ? post.likes.splice(index, 1) : post.likes.push(user.user.uid)
+        likeDislike(post);
+        setRender(render ? false : true);
     }
 
-    const handelComment = () =>{
+    const handelComment = (e) => {
+        e.preventDefault();
 
+        if (comment) {
+            const postComment = {
+                text: comment,
+                userName: `${user.user.firstName} ${user.user.lastName}`,
+            }
+           
+            createComment(post,postComment);
+            setRender(render ? false : true);
+           
+        }
     }
+    
 
 
+    useEffect(() => {
+        let newComments = []
+        if(comments){
+            newComments = comments.filter(comment => {
+                if(post.comments.indexOf(comment.id) >= 0){
+                    return comment
+                }
+            })
+            setPostComments([...newComments])
+            
+        }
+     }, [render])
 
     return (
         <Card className={classes.root} >
@@ -124,10 +155,11 @@ function PostCard({ post, user, likeDislike }) {
 
                     <Collapse in={expanded} timeout="auto" unmountOnExit>
                         <CardContent>
-                            {post.comments.length > 0 ? (
+                            {postsComments.length > 0 ? (
                                 <Typography paragraph>
-                                    Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-                                    minutes.
+                                    {postsComments.map(c=>(
+                                        <CommentList comment={c} />
+                                    ))}
                                 </Typography>
                             ) : (
                                 <Typography paragraph>
@@ -140,13 +172,14 @@ function PostCard({ post, user, likeDislike }) {
                                 <InputLabel htmlFor="standard-adornment-password">Comment</InputLabel>
                                 <Input
                                     id="standard-adornment-password"
-                                     onChange={(e)=> console.log(e.target.value)}
+                                    value={comment}
+                                    onChange={(e) => setComment(e.target.value)}
                                     endAdornment={
                                         <InputAdornment position="end">
                                             <IconButton
-                                              onSubmit={handelComment}
+                                                onClick={handelComment}
                                             >
-                                                 <SendIcon/> 
+                                                <SendIcon />
                                             </IconButton>
                                         </InputAdornment>
                                     }
@@ -167,4 +200,8 @@ function PostCard({ post, user, likeDislike }) {
     );
 }
 
-export default connect(null, { likeDislike })(PostCard);
+const mapTostateFrom = state =>({
+    comments:state.comments
+})
+
+export default connect(mapTostateFrom, { likeDislike, createComment })(PostCard);

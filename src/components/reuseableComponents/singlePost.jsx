@@ -2,7 +2,7 @@
 import { connect } from 'react-redux'
 import {likeDislike} from '../store/actions/postAction'
 import { Link, useParams } from 'react-router-dom'
-import { useState } from 'react'
+import { useState , useEffect } from 'react'
 import clsx from 'clsx';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import { makeStyles } from '@material-ui/core/styles';
@@ -59,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
 function SinglePost({ posts, user }) {
     let { postId } = useParams();
     const classes = useStyles();
+    const [render, setRender] = useState(false);
     const [expanded, setExpanded] = useState(true);
     const [comment, setComment] = useState(false);
 
@@ -66,9 +67,18 @@ function SinglePost({ posts, user }) {
         setExpanded(!expanded);
     };
 
+    const postLikeDislike = (post) => {
+        var index = post.likes.indexOf(user.user.uid);
+        index >= 0 ? post.likes.splice(index, 1) : post.likes.push(user.user.uid)
+        likeDislike(post);
+        setRender(render ? false : true);
+    }
+
     const handleComment = () =>{
 
     }
+
+    useEffect(()=>{},[render])
 
     return (
 
@@ -100,7 +110,7 @@ function SinglePost({ posts, user }) {
                             <CardActions disableSpacing>
                                 <IconButton 
                                 aria-label="add to favorites"
-                                onClick={()=>likeDislike(post,user.user.uid)}
+                                onClick={()=>postLikeDislike(post)}
                                 color={post.likes.indexOf(user.user.uid) >= 0 ? "secondary" : ''}
                                 >
                                     <FavoriteIcon />
